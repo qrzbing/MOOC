@@ -7,6 +7,8 @@ w = tf.Variable(tf.constant(5, dtype=tf.float32))
 loss = tf.square(w+1)
 #定义反向传播方法
 train_step = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
+# 学习率设置为 0.2
+
 #生成会话，训练40轮
 with tf.Session() as sess:
     init_op=tf.global_variables_initializer()

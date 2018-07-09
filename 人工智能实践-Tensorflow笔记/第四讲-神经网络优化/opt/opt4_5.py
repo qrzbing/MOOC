@@ -6,6 +6,7 @@ import tensorflow as tf
 LEARNING_RATE_BASE = 0.1 #最初学习率
 LEARNING_RATE_DECAY = 0.99 #学习率衰减率
 LEARNING_RATE_STEP = 1  #喂入多少轮BATCH_SIZE后，更新一次学习率，一般设为：总样本数/BATCH_SIZE
+# 本例中为了方便设置为 1 
 
 #运行了几轮BATCH_SIZE的计数器，初值给0, 设为不被训练
 global_step = tf.Variable(0, trainable=False)
@@ -28,3 +29,7 @@ with tf.Session() as sess:
         w_val = sess.run(w)
         loss_val = sess.run(loss)
         print "After %s steps: global_step is %f, w is %f, learning rate is %f, loss is %f" % (i, global_step_val, w_val, learning_rate_val, loss_val)
+        # global step 训练轮数
+        # w 当前参数
+        # 当前学习率
+        # 当前 loss 值
