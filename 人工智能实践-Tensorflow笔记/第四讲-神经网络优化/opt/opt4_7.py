@@ -15,45 +15,51 @@ Y_ = [int(x0*x0 + x1*x1 <2) for (x0,x1) in X]
 #遍历Y中的每个元素，1赋值'red'其余赋值'blue'，这样可视化显示时人可以直观区分
 Y_c = [['red' if y else 'blue'] for y in Y_]
 #对数据集X和标签Y进行shape整理，第一个元素为-1表示，随第二个参数计算得到，第二个元素表示多少列，把X整理为n行2列，把Y整理为n行1列
-X = np.vstack(X).reshape(-1,2)
+X = np.vstack(X).reshape(-1,2) # n行用 -1 表示
 Y_ = np.vstack(Y_).reshape(-1,1)
 print X
 print Y_
 print Y_c
 #用plt.scatter画出数据集X各行中第0列元素和第1列元素的点即各行的（x0，x1），用各行Y_c对应的值表示颜色（c是color的缩写） 
 plt.scatter(X[:,0], X[:,1], c=np.squeeze(Y_c)) 
+# X[: , 0] 表示取 X 中的第一列元素#
+# c=np.squeeze(Y_c) 从 Y_c 中的对应位置取颜色赋给参数 c
 plt.show()
-
+# 以上为建立数据集，并画出了可视化的散点。
 
 #定义神经网络的输入、参数和输出，定义前向传播过程 
 def get_weight(shape, regularizer):
+	# regularizer w 的正则化权重
 	w = tf.Variable(tf.random_normal(shape), dtype=tf.float32)
 	tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(regularizer)(w))
 	return w
 
 def get_bias(shape):  
     b = tf.Variable(tf.constant(0.01, shape=shape)) 
+	# 偏置 b 赋值为 0.01
     return b
 	
 x = tf.placeholder(tf.float32, shape=(None, 2))
 y_ = tf.placeholder(tf.float32, shape=(None, 1))
 
-w1 = get_weight([2,11], 0.01)	
-b1 = get_bias([11])
-y1 = tf.nn.relu(tf.matmul(x, w1)+b1)
+w1 = get_weight([2,11], 0.01) # 两行 11 列 注意shape都是以列表示形式给出的。正则化权重为 0.01
+b1 = get_bias([11]) # b1 有 11个
+y1 = tf.nn.relu(tf.matmul(x, w1)+b1) # y1表示x和w1实现矩阵乘法加上偏置b1过非线性函数relu()的输出
+
 
 w2 = get_weight([11,1], 0.01)
 b2 = get_bias([1])
-y = tf.matmul(y1, w2)+b2 
+y = tf.matmul(y1, w2)+b2 # 输出层不过激活函数
 
 
 #定义损失函数
-loss_mse = tf.reduce_mean(tf.square(y-y_))
-loss_total = loss_mse + tf.add_n(tf.get_collection('losses'))
+loss_mse = tf.reduce_mean(tf.square(y-y_)) # 均方误差的损失函数
+loss_total = loss_mse + tf.add_n(tf.get_collection('losses')) # 均方误差损失函数加上每一个正则化 w 的损失
 
 
 #定义反向传播方法：不含正则化
 train_step = tf.train.AdamOptimizer(0.0001).minimize(loss_mse)
+# 定义训练过程为 Adam 优化器沿着近均方误差的损失函数最小的方向进行优化，该损失函数不包含正则化。
 
 with tf.Session() as sess:
 	init_op = tf.global_variables_initializer()
