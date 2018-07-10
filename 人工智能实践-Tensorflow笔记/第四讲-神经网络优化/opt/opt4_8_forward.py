@@ -13,8 +13,8 @@ def get_bias(shape):
     return b
 	
 def forward(x, regularizer):
-	
-	w1 = get_weight([2,11], regularizer)	
+	# w1 为 两行 11 列
+	w1 = get_weight([2,11], regularizer) 
 	b1 = get_bias([11])
 	y1 = tf.nn.relu(tf.matmul(x, w1) + b1)
 

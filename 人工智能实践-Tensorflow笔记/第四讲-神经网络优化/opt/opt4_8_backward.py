@@ -46,7 +46,8 @@ def backward():
 			sess.run(train_step, feed_dict={x: X[start:end], y_:Y_[start:end]})
 			if i % 2000 == 0:
 				loss_v = sess.run(loss_total, feed_dict={x:X,y_:Y_})
-				print("After %d steps, loss is: %f" %(i, loss_v))
+				# print("After %d steps, loss is: %f" %(i, loss_v))
+				print("[+] steps: %d, loss: %f" %(i, loss_v))
 
 		xx, yy = np.mgrid[-3:3:.01, -3:3:.01]
 		grid = np.c_[xx.ravel(), yy.ravel()]
