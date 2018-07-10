@@ -1,1 +1,4 @@
-/fc1/*
+/fc1/data/*
+/fc1/model/*
+*.gz
+*.py[oc]
