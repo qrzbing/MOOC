@@ -4,3 +4,5 @@ model/
 pic/
 .vscode/
 fc4/
+mnist_data_jpg/
+num/
