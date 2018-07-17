@@ -1,5 +1,4 @@
-#!/usr/bin/python
-#coding:utf-8
+# --*-- coding:utf-8 --*--
 from skimage import io, transform
 import numpy as np
 import matplotlib.pyplot as plt
